@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const helmet = require("helmet");
 const bodyParser = require('body-parser');
 const productsRoutes = require('./routes/products');
+const path = require("path");
+const usersRoutes = require('./routes/users');
 
 const app = express();
 
@@ -23,8 +25,12 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(bodyParser.json());
 
-app.use('/', productsRoutes);
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
+app.use('/users', usersRoutes);
+app.use('/products', productsRoutes);
 
 module.exports = app;
